@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env  # Arquivo de variáveis de ambiente
+    volumes:
+      - .:/app
+    networks:
+      - backend
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}  # Variáveis do arquivo .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  backend:
+
+volumes:
+  postgres_data:

@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: .
+    env_file:
+      - .env.test
+    networks:
+      - backend
+    command: npm run test
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db_test
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  backend:
+
+volumes:
+  postgres_data:
